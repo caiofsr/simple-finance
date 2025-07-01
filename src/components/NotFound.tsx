@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
-export function notFound() {
+export function NotFound() {
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-background">
 			<Card className="w-full max-w-md">

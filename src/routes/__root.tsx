@@ -12,6 +12,7 @@ import { getWebRequest } from '@tanstack/react-start/server';
 import { ConvexProviderWithAuth, type ConvexReactClient } from 'convex/react';
 import type { ReactNode } from 'react';
 import { DefaultCatchBoundary } from '@/components/DefaultCatchBoundary';
+import { NotFound } from '@/components/NotFound';
 import appCss from '@/styles/app.css?url';
 
 const fetchClerkAuth = createServerFn({ method: 'GET' }).handler(async () => {
@@ -44,7 +45,6 @@ export const Route = createRootRouteWithContext<{
 		],
 		links: [
 			{ rel: 'stylesheet', href: appCss },
-			{ rel: 'manifest', href: '/site.webmanifest' },
 			{ rel: 'icon', href: '/favicon.ico' },
 			{ rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
 			{ rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
@@ -66,6 +66,7 @@ export const Route = createRootRouteWithContext<{
 		};
 	},
 	component: RootComponent,
+	notFoundComponent: NotFound,
 	errorComponent: (props) => {
 		return (
 			<RootDocument>
