@@ -1,7 +1,9 @@
 /// <reference types="vite/client" />
 
+import { ClerkProvider } from '@clerk/tanstack-react-start';
 import { createRootRoute, HeadContent, Outlet, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
+import { NotFound } from '@/components/NotFound';
 import appCss from '@/styles/app.css?url';
 
 export const Route = createRootRoute({
@@ -21,13 +23,16 @@ export const Route = createRootRoute({
 		links: [{ rel: 'stylesheet', href: appCss }],
 	}),
 	component: RootComponent,
+	notFoundComponent: () => <NotFound />,
 });
 
 function RootComponent() {
 	return (
-		<RootDocument>
-			<Outlet />
-		</RootDocument>
+		<ClerkProvider>
+			<RootDocument>
+				<Outlet />
+			</RootDocument>
+		</ClerkProvider>
 	);
 }
 
