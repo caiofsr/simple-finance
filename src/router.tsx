@@ -1,38 +1,11 @@
-import { ConvexQueryClient } from '@convex-dev/react-query';
-import { QueryClient } from '@tanstack/react-query';
 import { createRouter as createTanStackRouter } from '@tanstack/react-router';
-import { routerWithQueryClient } from '@tanstack/react-router-with-query';
-import { ConvexProvider } from 'convex/react';
 import { routeTree } from './routeTree.gen';
 
 export function createRouter() {
-	const CONVEX_URL = import.meta.env.VITE_CONVEX_URL;
-	if (!CONVEX_URL) {
-		throw new Error('VITE_CONVEX_URL is not defined. Please set it in your environment variables.');
-	}
-
-	const convexQueryClient = new ConvexQueryClient(CONVEX_URL as string);
-
-	const queryClient = new QueryClient({
-		defaultOptions: {
-			queries: {
-				queryKeyHashFn: convexQueryClient.hashFn(),
-				queryFn: convexQueryClient.queryFn(),
-			},
-		},
+	const router = createTanStackRouter({
+		routeTree,
+		scrollRestoration: true,
 	});
-	convexQueryClient.connect(queryClient);
-
-	const router = routerWithQueryClient(
-		createTanStackRouter({
-			routeTree,
-			scrollRestoration: true,
-			defaultPreload: 'intent',
-			context: { queryClient, convexQueryClient, convexClient: convexQueryClient.convexClient },
-			Wrap: ({ children }) => <ConvexProvider client={convexQueryClient.convexClient}>{children}</ConvexProvider>,
-		}),
-		queryClient,
-	);
 
 	return router;
 }
