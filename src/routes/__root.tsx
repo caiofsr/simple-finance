@@ -4,6 +4,7 @@ import { ClerkProvider } from '@clerk/tanstack-react-start';
 import { createRootRoute, HeadContent, Outlet, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 import { NotFound } from '@/components/NotFound';
+import { ThemeProvider } from '@/providers/theme-provider';
 import appCss from '@/styles/app.css?url';
 
 export const Route = createRootRoute({
@@ -29,9 +30,11 @@ export const Route = createRootRoute({
 function RootComponent() {
 	return (
 		<ClerkProvider>
-			<RootDocument>
-				<Outlet />
-			</RootDocument>
+			<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+				<RootDocument>
+					<Outlet />
+				</RootDocument>
+			</ThemeProvider>
 		</ClerkProvider>
 	);
 }

@@ -1,4 +1,3 @@
-import { SignedIn, SignedOut, SignInButton, SignOutButton, UserButton } from '@clerk/tanstack-react-start';
 import { createFileRoute } from '@tanstack/react-router';
 import { Navbar } from '@/components/Navbar';
 
@@ -10,16 +9,7 @@ function Home() {
 	return (
 		<div>
 			<Navbar />
-			<h1>Index Route</h1>
-			<SignedIn>
-				<p>You are signed in</p>
-				<UserButton />
-				<SignOutButton />
-			</SignedIn>
-			<SignedOut>
-				<p>You are signed out</p>
-				<SignInButton />
-			</SignedOut>
+			<h1>Welcome to the Home Page</h1>
 		</div>
 	);
 }

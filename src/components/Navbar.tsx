@@ -1,6 +1,7 @@
-import { SignedIn, SignedOut, SignOutButton, UserButton } from '@clerk/tanstack-react-start';
+import { SignedIn, SignedOut, UserButton } from '@clerk/tanstack-react-start';
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
+import { ModeToggle } from './ThemeToggle';
 
 export function Navbar() {
 	return (
@@ -9,11 +10,9 @@ export function Navbar() {
 				Simple Finance
 			</Link>
 			<div className="flex items-center gap-4">
+				<ModeToggle />
 				<SignedIn>
 					<UserButton />
-					<Button variant="ghost" asChild>
-						<SignOutButton />
-					</Button>
 				</SignedIn>
 				<SignedOut>
 					<Link to="/sign-in">
