@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 import { NotFound } from '@/components/NotFound';
 import { ThemeProvider } from '@/providers/theme-provider';
 import appCss from '@/styles/app.css?url';
+import { seo } from '@/utils/seo';
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -17,9 +18,11 @@ export const Route = createRootRoute({
 				name: 'viewport',
 				content: 'width=device-width, initial-scale=1',
 			},
-			{
-				title: 'TanStack Start Starter',
-			},
+			...seo({
+				title: 'Simple Finance',
+				description: 'A simple finance management tool',
+				keywords: 'finance, management, simple',
+			}),
 		],
 		links: [{ rel: 'stylesheet', href: appCss }],
 	}),
@@ -30,7 +33,7 @@ export const Route = createRootRoute({
 function RootComponent() {
 	return (
 		<ClerkProvider>
-			<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+			<ThemeProvider defaultTheme="light" storageKey="simplefin-ui-theme">
 				<RootDocument>
 					<Outlet />
 				</RootDocument>
