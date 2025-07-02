@@ -15,7 +15,11 @@ import type { ReactNode } from 'react';
 import { NotFound } from '@/components/NotFound.js';
 import { ThemeProvider } from '@/providers/theme-provider';
 import appCss from '@/styles/app.css?url';
+import antiFlickerScript from '@/utils/anti-flicker.ts?raw';
 import { seo } from '@/utils/seo';
+
+const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+const CLERK_KEY = process.env.CLERK_SECRET_KEY;
 
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient;
@@ -68,9 +72,8 @@ const fetchClerkAuth = createServerFn({ method: 'GET' }).handler(async () => {
 
 function RootComponent() {
 	const context = useRouteContext({ from: Route.id });
-
 	return (
-		<ClerkProvider>
+		<ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY} key={CLERK_KEY}>
 			<ConvexProviderWithClerk client={context.convexClient} useAuth={useAuth}>
 				<ThemeProvider defaultTheme="system" storageKey="simplefin-ui-theme">
 					<RootDocument>
@@ -87,6 +90,8 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 		<html lang="pt-BR">
 			<head>
 				<HeadContent />
+				{/** biome-ignore lint/security/noDangerouslySetInnerHtml: The script is a local file and not user-generated content. */}
+				<script dangerouslySetInnerHTML={{ __html: antiFlickerScript }} />
 			</head>
 			<body>
 				{children}
