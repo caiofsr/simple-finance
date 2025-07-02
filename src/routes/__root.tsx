@@ -4,7 +4,9 @@ import { ClerkProvider, useAuth } from '@clerk/tanstack-react-start';
 import { getAuth } from '@clerk/tanstack-react-start/server';
 import type { ConvexQueryClient } from '@convex-dev/react-query';
 import type { QueryClient } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createRootRouteWithContext, HeadContent, Outlet, Scripts, useRouteContext } from '@tanstack/react-router';
+import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { createServerFn } from '@tanstack/react-start';
 import { getWebRequest } from '@tanstack/react-start/server';
 import type { ConvexReactClient } from 'convex/react';
@@ -89,6 +91,8 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 			<body>
 				{children}
 				<Scripts />
+				<TanStackRouterDevtools />
+				<ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-right" />
 			</body>
 		</html>
 	);
