@@ -1,14 +1,25 @@
 /// <reference types="vite/client" />
 
-import { ClerkProvider } from '@clerk/tanstack-react-start';
-import { createRootRoute, HeadContent, Outlet, Scripts } from '@tanstack/react-router';
+import { ClerkProvider, useAuth } from '@clerk/tanstack-react-start';
+import { getAuth } from '@clerk/tanstack-react-start/server';
+import type { ConvexQueryClient } from '@convex-dev/react-query';
+import type { QueryClient } from '@tanstack/react-query';
+import { createRootRouteWithContext, HeadContent, Outlet, Scripts, useRouteContext } from '@tanstack/react-router';
+import { createServerFn } from '@tanstack/react-start';
+import { getWebRequest } from '@tanstack/react-start/server';
+import type { ConvexReactClient } from 'convex/react';
+import { ConvexProviderWithClerk } from 'convex/react-clerk';
 import type { ReactNode } from 'react';
-import { NotFound } from '@/components/NotFound';
+import { NotFound } from '@/components/NotFound.js';
 import { ThemeProvider } from '@/providers/theme-provider';
 import appCss from '@/styles/app.css?url';
 import { seo } from '@/utils/seo';
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{
+	queryClient: QueryClient;
+	convexClient: ConvexReactClient;
+	convexQueryClient: ConvexQueryClient;
+}>()({
 	head: () => ({
 		meta: [
 			{
@@ -28,16 +39,43 @@ export const Route = createRootRoute({
 	}),
 	component: RootComponent,
 	notFoundComponent: () => <NotFound />,
+	beforeLoad: async (ctx) => {
+		const auth = await fetchClerkAuth();
+		const { userId, token } = auth;
+
+		if (token) {
+			ctx.context.convexQueryClient.serverHttpClient?.setAuth(token);
+		}
+
+		return {
+			userId,
+			token,
+		};
+	},
+});
+
+const fetchClerkAuth = createServerFn({ method: 'GET' }).handler(async () => {
+	const auth = await getAuth(getWebRequest());
+	const token = await auth.getToken({ template: 'convex' });
+
+	return {
+		userId: auth.userId,
+		token,
+	};
 });
 
 function RootComponent() {
+	const context = useRouteContext({ from: Route.id });
+
 	return (
 		<ClerkProvider>
-			<ThemeProvider defaultTheme="light" storageKey="simplefin-ui-theme">
-				<RootDocument>
-					<Outlet />
-				</RootDocument>
-			</ThemeProvider>
+			<ConvexProviderWithClerk client={context.convexClient} useAuth={useAuth}>
+				<ThemeProvider defaultTheme="system" storageKey="simplefin-ui-theme">
+					<RootDocument>
+						<Outlet />
+					</RootDocument>
+				</ThemeProvider>
+			</ConvexProviderWithClerk>
 		</ClerkProvider>
 	);
 }
