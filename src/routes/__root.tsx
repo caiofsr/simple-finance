@@ -15,7 +15,6 @@ import type { ReactNode } from 'react';
 import { NotFound } from '@/components/NotFound.js';
 import { ThemeProvider } from '@/providers/theme-provider';
 import appCss from '@/styles/app.css?url';
-import antiFlickerScript from '@/utils/anti-flicker.ts?raw';
 import { seo } from '@/utils/seo';
 
 const CLERK_PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -90,8 +89,6 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 		<html lang="pt-BR">
 			<head>
 				<HeadContent />
-				{/** biome-ignore lint/security/noDangerouslySetInnerHtml: The script is a local file and not user-generated content. */}
-				<script dangerouslySetInnerHTML={{ __html: antiFlickerScript }} />
 			</head>
 			<body>
 				{children}
