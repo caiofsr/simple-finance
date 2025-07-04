@@ -8,6 +8,7 @@ export const Route = createFileRoute('/')({
 			throw redirect({ to: '/dashboard' });
 		}
 	},
+	ssr: true,
 });
 
 function Home() {

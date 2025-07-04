@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-import { ClerkProvider, useAuth } from '@clerk/tanstack-react-start';
+import { ClerkProvider } from '@clerk/tanstack-react-start';
 import { getAuth } from '@clerk/tanstack-react-start/server';
 import type { ConvexQueryClient } from '@convex-dev/react-query';
 import type { QueryClient } from '@tanstack/react-query';
@@ -9,11 +9,9 @@ import { createRootRouteWithContext, HeadContent, Outlet, Scripts, useRouteConte
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { createServerFn } from '@tanstack/react-start';
 import { getWebRequest } from '@tanstack/react-start/server';
-import type { ConvexReactClient } from 'convex/react';
-import { ConvexProviderWithClerk } from 'convex/react-clerk';
+import { ConvexProvider, type ConvexReactClient } from 'convex/react';
 import type { ReactNode } from 'react';
 import { NotFound } from '@/components/NotFound.js';
-import { ThemeProvider } from '@/providers/theme-provider';
 import appCss from '@/styles/app.css?url';
 import { seo } from '@/utils/seo';
 
@@ -73,20 +71,18 @@ function RootComponent() {
 	const context = useRouteContext({ from: Route.id });
 	return (
 		<ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY} key={CLERK_KEY}>
-			<ConvexProviderWithClerk client={context.convexClient} useAuth={useAuth}>
-				<ThemeProvider defaultTheme="system" storageKey="simplefin-ui-theme">
-					<RootDocument>
-						<Outlet />
-					</RootDocument>
-				</ThemeProvider>
-			</ConvexProviderWithClerk>
+			<ConvexProvider client={context.convexClient}>
+				<RootDocument>
+					<Outlet />
+				</RootDocument>
+			</ConvexProvider>
 		</ClerkProvider>
 	);
 }
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
 	return (
-		<html lang="pt-BR">
+		<html lang="pt-BR" className="dark">
 			<head>
 				<HeadContent />
 			</head>
