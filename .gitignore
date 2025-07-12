@@ -36,3 +36,4 @@ _generated
 
 # Finder (MacOS) folder config
 .DS_Store
+count.txt

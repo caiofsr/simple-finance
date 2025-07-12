@@ -10,7 +10,6 @@ export default defineConfig({
 		tsConfigPaths(),
 		tanstackStart({
 			target: 'bun',
-			customViteReactPlugin: true,
 		}),
 	],
 });
