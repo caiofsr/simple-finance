@@ -8,13 +8,23 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createServerRootRoute } from '@tanstack/react-start/server'
+
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { ServerRoute as ApiHealthCheckServerRouteImport } from './routes/api/health-check'
+
+const rootServerRouteImport = createServerRootRoute()
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHealthCheckServerRoute = ApiHealthCheckServerRouteImport.update({
+  id: '/api/health-check',
+  path: '/api/health-check',
+  getParentRoute: () => rootServerRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -38,6 +48,27 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
 }
+export interface FileServerRoutesByFullPath {
+  '/api/health-check': typeof ApiHealthCheckServerRoute
+}
+export interface FileServerRoutesByTo {
+  '/api/health-check': typeof ApiHealthCheckServerRoute
+}
+export interface FileServerRoutesById {
+  __root__: typeof rootServerRouteImport
+  '/api/health-check': typeof ApiHealthCheckServerRoute
+}
+export interface FileServerRouteTypes {
+  fileServerRoutesByFullPath: FileServerRoutesByFullPath
+  fullPaths: '/api/health-check'
+  fileServerRoutesByTo: FileServerRoutesByTo
+  to: '/api/health-check'
+  id: '__root__' | '/api/health-check'
+  fileServerRoutesById: FileServerRoutesById
+}
+export interface RootServerRouteChildren {
+  ApiHealthCheckServerRoute: typeof ApiHealthCheckServerRoute
+}
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
@@ -50,6 +81,17 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+declare module '@tanstack/react-start/server' {
+  interface ServerFileRoutesByPath {
+    '/api/health-check': {
+      id: '/api/health-check'
+      path: '/api/health-check'
+      fullPath: '/api/health-check'
+      preLoaderRoute: typeof ApiHealthCheckServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
+  }
+}
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -57,3 +99,9 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+const rootServerRouteChildren: RootServerRouteChildren = {
+  ApiHealthCheckServerRoute: ApiHealthCheckServerRoute,
+}
+export const serverRouteTree = rootServerRouteImport
+  ._addFileChildren(rootServerRouteChildren)
+  ._addFileTypes<FileServerRouteTypes>()
