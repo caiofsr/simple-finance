@@ -9,6 +9,7 @@
     "format": "biome format --write ."
   },
   "dependencies": {
+    "@clerk/tanstack-react-start": "^0.19.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/postcss": "^4.1.11",
     "@tanstack/react-router": "^1.127.3",
@@ -34,5 +35,10 @@
   "peerDependencies": {
     "typescript": "^5.8.3"
   },
-  "trustedDependencies": ["@parcel/watcher", "@tailwindcss/oxide", "esbuild"]
+  "trustedDependencies": [
+    "@clerk/shared",
+    "@parcel/watcher",
+    "@tailwindcss/oxide",
+    "esbuild"
+  ]
 }

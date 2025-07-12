@@ -1,23 +1,23 @@
-FROM oven/bun:1 AS base
+FROM node:24-slim AS base
 WORKDIR /app
 
 # ---- Dependencies ----
 FROM base AS deps
-COPY package.json bun.lock ./
-RUN bun install --frozen-lockfile
+COPY package.json package-lock.json ./
+RUN npm ci
 
 # ---- Builder ----
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN bun run build
+RUN npm run build
 
 # ---- Runner ----
-FROM oven/bun:1-slim AS runner
+FROM node:24-alpine AS runner
 WORKDIR /app
 
 COPY --from=builder /app/.output ./.output
 
 EXPOSE 3000
 
-CMD [ "bun", "run", ".output/server/index.mjs" ]
+CMD [ "node", ".output/server/index.mjs" ]

@@ -1,3 +1,4 @@
+import { ClerkProvider } from '@clerk/tanstack-react-start';
 import { createRootRoute, HeadContent, Outlet, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 import appCss from '@/styles/app.css?url';
@@ -13,7 +14,7 @@ export const Route = createRootRoute({
 				content: 'width=device-width, initial-scale=1',
 			},
 			{
-				title: 'TanStack Start Starter',
+				title: 'Finanças Simples',
 			},
 		],
 		links: [
@@ -24,12 +25,15 @@ export const Route = createRootRoute({
 		],
 	}),
 	component: RootComponent,
+	notFoundComponent: () => <div>Not Found</div>,
 });
 
 function RootComponent() {
 	return (
 		<RootDocument>
-			<Outlet />
+			<ClerkProvider>
+				<Outlet />
+			</ClerkProvider>
 		</RootDocument>
 	);
 }
