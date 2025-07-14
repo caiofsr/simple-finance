@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { CheckCircle, DollarSign, PieChart, Shield, TrendingUp, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -193,8 +193,7 @@ function Home() {
 									className="text-lg px-8 py-4 h-auto"
 									aria-label="Iniciar agora o controle das suas finanças"
 								>
-									<DollarSign className="mr-2 h-5 w-5" />
-									Iniciar Agora
+									<Link to="/dashboard">Iniciar Agora</Link>
 								</Button>
 								<Button
 									variant="outline"
