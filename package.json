@@ -6,7 +6,8 @@
     "dev": "vite dev",
     "build": "vite build",
     "lint": "biome lint --write .",
-    "format": "biome format --write ."
+    "format": "biome format --write .",
+    "convex:dev": "convex dev"
   },
   "dependencies": {
     "@clerk/tanstack-react-start": "^0.19.0",

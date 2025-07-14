@@ -16,9 +16,6 @@ export const Route = createRootRouteWithContext<{
 				name: 'viewport',
 				content: 'width=device-width, initial-scale=1',
 			},
-			{
-				title: 'Finanças Simples',
-			},
 		],
 		links: [
 			{
