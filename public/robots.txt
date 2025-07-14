@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://financas-simples.com/sitemap.xml
+
+# Crawl-delay for bots
+Crawl-delay: 1
+
+# Block access to admin areas (when implemented)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /dashboard/
+Disallow: /*.json$
+
+# Allow important pages
+Allow: /
+Allow: /sobre
+Allow: /contato
+Allow: /ajuda
+Allow: /blog/
