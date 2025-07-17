@@ -1,3 +1,4 @@
+import { UserButton } from '@clerk/tanstack-react-start';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_authed/dashboard')({
@@ -5,5 +6,5 @@ export const Route = createFileRoute('/_authed/dashboard')({
 });
 
 function RouteComponent() {
-	return <div>Hello "/_authed/dashboard"!</div>;
+	return <UserButton />;
 }
